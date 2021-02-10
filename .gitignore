@@ -1,0 +1,4 @@
+# Project exclude paths
+/target/
+/poc-percentage.iml
+/.idea/
