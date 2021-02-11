@@ -7,6 +7,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Iterator;
 
 /**
@@ -31,7 +32,7 @@ public class Main {
                 Cell perCell = row.getCell(1); // get percentage
 
                 String agentCode = agentCell.getStringCellValue();
-                double agentPercentage = getPercentage(perCell);
+                BigDecimal agentPercentage = getPercentage(perCell);
 
                 System.out.printf("Agent : %s | Percentage : %s%%%n", agentCode, agentPercentage);
                 System.out.println("====================================================");
@@ -53,11 +54,11 @@ public class Main {
      * @param cell percentage cell
      * @return the percentage value of the numeric cell
      */
-    private static double getPercentage(Cell cell) {
-        if (isPercentage(cell)) {
-            return cell.getNumericCellValue() * 100;
+    private static BigDecimal getPercentage(Cell cell) {
+        if (isPercentage(cell) || cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+            return BigDecimal.valueOf(cell.getNumericCellValue() * 100);
         }
-        return cell.getNumericCellValue(); // should handle an Exception
+        return BigDecimal.ZERO; // should handle an Exception
     }
 
 }
